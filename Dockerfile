@@ -13,3 +13,9 @@ RUN python3 -c "import torch;from transformers import AutoModelForCausalLM;AutoM
 
 COPY gptj.py gptj.py
 
+RUN pip3 install fastapi pydantic uvicorn
+COPY rest_api.py rest_api.py
+
+# ENTRYPOINT "uvicorn rest_api:app --workers 1 --host 0.0.0.0 --port 8008"
+ENTRYPOINT "/usr/bin/python3 /workspace/rest_api.py"
+
