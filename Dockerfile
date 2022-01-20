@@ -1,9 +1,8 @@
-FROM huggingface/transformers-pytorch-gpu
+FROM pytorch/pytorch:1.9.1-cuda11.1-cudnn8-runtime
 
 RUN pip3 install -U transformers
-RUN pip3 install jupyter
 
-# Pre-download the weights for the models
+# Pre-download the weights for the models (because of this the docler image will be quite big)
 # Tokenizer
 RUN python3 -c "from transformers import AutoTokenizer;AutoTokenizer.from_pretrained('EleutherAI/gpt-j-6B')"
 # Model - float16 (for inference)
@@ -11,11 +10,11 @@ RUN python3 -c "import torch;from transformers import AutoModelForCausalLM;AutoM
 # Model - full precision
 # RUN python -c "from transformers import AutoModelForCausalLM;AutoModelForCausalLM.from_pretrained('EleutherAI/gpt-j-6B')"
 
-COPY gptj.py gptj.py
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-RUN pip3 install fastapi pydantic uvicorn
+COPY gptj.py gptj.py
 COPY rest_api.py rest_api.py
 
-# ENTRYPOINT "uvicorn rest_api:app --workers 1 --host 0.0.0.0 --port 8008"
-ENTRYPOINT "/usr/bin/python3 /workspace/rest_api.py"
+ENTRYPOINT python3 /workspace/rest_api.py
 

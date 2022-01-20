@@ -1,10 +1,27 @@
-# GPT-J for Inference
+# GPT-J Demo
 
-## Module usage
-- (Build docker image)
-- Run the docker image and start a notebook inside it `jupyter notebook --allow-root --port 9999 --ip 0.0.0.0`
-- Import the `gptj` module and have fun
+This is just a super quick demo for `GPT-J` (included in the *Huggingface* `transformers` package) 
+if anyone wants to try it out.
 
-## RestAPI
-`docker run -it --rm --name gptj --gpus '"device=7"' -p 8008:8008 --entrypoint /bin/bash gptj`
+Not suitable for anything other then experimentation and demo.
+
+Pay attention that this repo does not contain:
+- Optimizations
+- Error handlings
+
+## Usage
+
+### Build Docker image
+
+```
+docker build -t gptj .
+```
+
+### Run
+
+```
+docker run -it --rm --name gptj --gpus '"device=7"' -p 8008:8008 --entrypoint /bin/bash gptj
+```
+
+Access the swagger ui at `localhost:8008/docs`
 

@@ -1,4 +1,5 @@
 from typing import Optional
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -27,7 +28,6 @@ class GPTJ:
                                                           torch_dtype=torch.float16,
                                                           low_cpu_mem_usage=True)
         self.model = self.model.to(self.device)
-        print("Models Loaded")
 
     def tokenize(self, prompt: str):
         input_ids = self.tokenizer(prompt, return_tensors="pt").to(self.device).input_ids
