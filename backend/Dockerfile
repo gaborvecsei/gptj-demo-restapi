@@ -14,8 +14,8 @@ RUN python3 -c "import torch;from transformers import AutoModelForCausalLM;AutoM
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
+WORKDIR /workspace
+
 COPY gptj.py gptj.py
 COPY rest_api.py rest_api.py
-
-ENTRYPOINT python3 /workspace/rest_api.py
 

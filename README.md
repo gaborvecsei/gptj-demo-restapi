@@ -5,23 +5,23 @@ if anyone wants to try it out.
 
 Not suitable for anything other then experimentation and demo.
 
-Pay attention that this repo does not contain:
+Pay attention that this repo does not contain a lot of things including:
 - Optimizations
 - Error handlings
 
 ## Usage
 
-### Build Docker image
-
 ```
-docker build -t gptj .
-```
+# Build
+docker-compose build
 
-### Run
+# Run
+docker-compose up -d
 
-```
-docker run -it --rm --name gptj --gpus '"device=7"' -p 8008:8008 --entrypoint /bin/bash gptj
+# Then wait until each service is fully started (e.g.: GPT-J model needs to be loaded)
 ```
 
-Access the swagger ui at `localhost:8008/docs`
+Then you can access the following:
+- Swagger UI: `localhost:8008/docs`
+- Streamlit App: `localhost:8050`
 

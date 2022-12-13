@@ -1,9 +1,9 @@
+import os
 from typing import List, Optional
 
 import fastapi
-import pydantic
-
 import gptj
+import pydantic
 
 app = fastapi.FastAPI()
 app.gptj: Optional[gptj.GPTJ] = None
@@ -43,5 +43,9 @@ async def startup():
 
 
 if __name__ == "__main__":
+    REST_API_HOST = os.environ.get("REST_API_HOST", None)
+    REST_API_PORT = os.environ.get("REST_API_PORT", None)
+    if REST_API_HOST is None or REST_API_PORT is None:
+        raise RuntimeError("These env variables should be present")
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8008)
+    uvicorn.run(app, host=REST_API_HOST, port=str(REST_API_PORT))

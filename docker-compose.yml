@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  restapi:
+    image: gptj_restapi:latest
+    container_name: gptj_restapi
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      REST_API_HOST: 0.0.0.0
+      REST_API_PORT: 8008
+    command: python rest_api.py
+    ports:
+      - 8008:8008 # Exposed only for debugging
+    networks:
+      - basic_network
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0']
+            capabilities: [gpu]
+  ui:
+    image: gptj_ui:latest
+    container_name: gptj_ui
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      REST_API_HOST: restapi
+      REST_API_PORT: 8008
+    command: streamlit run demo.py --server.port 8050
+    ports:
+      - 8050:8050
+    networks:
+      - basic_network
+    depends_on:
+      - restapi
+
+networks:
+  basic_network:
+    driver: bridge
