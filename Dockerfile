@@ -1,6 +1,7 @@
 FROM pytorch/pytorch:1.9.1-cuda11.1-cudnn8-runtime
 
 RUN pip3 install -U transformers
+RUN pip3 install accelerate
 
 # Pre-download the weights for the models (because of this the docler image will be quite big)
 # Tokenizer
